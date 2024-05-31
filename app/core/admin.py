@@ -1,5 +1,5 @@
-""" django admin customizations
-
+"""
+Django admin customization.
 """
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -9,11 +9,12 @@ from core import models
 
 
 class UserAdmin(BaseUserAdmin):
-    """ Define the admin pages for users."""
+    """Define the admin pages for users."""
     ordering = ['id']
     list_display = ['email', 'name']
     fieldsets = (
-        (None, { 'fields': ('email', 'password')}),
+        (None, {'fields': ('email', 'password')}),
+        (_('Personal Info'), {'fields': ('name',)}),
         (
             _('Permissions'),
             {
@@ -21,7 +22,7 @@ class UserAdmin(BaseUserAdmin):
                     'is_active',
                     'is_staff',
                     'is_superuser',
-                    )
+                )
             }
         ),
         (_('Important dates'), {'fields': ('last_login',)}),
@@ -30,7 +31,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields':(
+            'fields': (
                 'email',
                 'password1',
                 'password2',
@@ -38,9 +39,12 @@ class UserAdmin(BaseUserAdmin):
                 'is_active',
                 'is_staff',
                 'is_superuser',
-            )
+            ),
         }),
     )
 
 
 admin.site.register(models.User, UserAdmin)
+admin.site.register(models.Recipe)
+admin.site.register(models.Tag)
+admin.site.register(models.Ingredient)
